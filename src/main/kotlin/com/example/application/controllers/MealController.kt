@@ -1,5 +1,6 @@
 package com.example.application.controllers
 
+import com.example.application.model.Meal
 import com.example.application.services.MealService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration
@@ -14,7 +15,7 @@ class MealController(
 ) {
 
     @GetMapping("/meal")
-    fun getMealsOptions(): List<String> {
+    fun getMealsOptions(): List<Meal> {
         return mealService.getMealOptions()
     }
 }
