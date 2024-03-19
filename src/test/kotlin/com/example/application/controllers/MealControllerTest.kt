@@ -18,12 +18,12 @@ internal class MealControllerTest {
         val mealController = MealController(mealService)
 
         val availableMealOptions = listOf(
-            Meal("Poha", MealType.BREAKFAST),
-            Meal("Upma", MealType.BREAKFAST),
-            Meal("Omelette", MealType.BREAKFAST),
-            Meal("Daal-rice", MealType.LUNCH),
-            Meal("Pasta", MealType.LUNCH),
-            Meal("Parathe", MealType.DINNER),
+            Meal("1","Poha", MealType.BREAKFAST),
+            Meal("2","Upma", MealType.BREAKFAST),
+            Meal("3","Omelette", MealType.BREAKFAST),
+            Meal("4","Daal-rice", MealType.LUNCH),
+            Meal("5","Pasta", MealType.LUNCH),
+            Meal("6","Parathe", MealType.DINNER),
         )
 
         Mockito.`when`(mealService.getMealOptions())
