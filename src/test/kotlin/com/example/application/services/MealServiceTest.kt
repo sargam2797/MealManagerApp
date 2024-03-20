@@ -1,6 +1,7 @@
 package com.example.application.services
 
 import com.example.application.model.Meal
+import com.example.application.model.MealResponse
 import com.example.application.model.MealType
 import com.example.application.repository.IMealRepository
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -26,6 +27,6 @@ internal class MealServiceTest {
         `when`(mealRepository.findAll()).thenReturn(availableMealOptions)
 
         val mealOptions = mealService.getMealOptions()
-        assertEquals(mealOptions, availableMealOptions)
+        assertEquals(mealOptions, MealResponse(availableMealOptions))
     }
 }
