@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.`when`
+import java.util.*
 
 internal class MealServiceTest {
     private val mealRepository = mock<IMealRepository>()
@@ -28,5 +29,14 @@ internal class MealServiceTest {
 
         val mealOptions = mealService.getMealOptions()
         assertEquals(mealOptions, MealResponse(availableMealOptions))
+    }
+
+    @Test
+    internal fun `return a meal item`() {
+        val meal = Meal("1", "Poha", MealType.BREAKFAST)
+        `when`(mealRepository.findById("1")).thenReturn(Optional.of(meal))
+
+        val expectedMeal = mealService.getMeal("1")
+        assertEquals(expectedMeal, meal)
     }
 }
