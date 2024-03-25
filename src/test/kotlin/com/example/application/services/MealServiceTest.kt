@@ -6,8 +6,7 @@ import com.example.application.model.MealType
 import com.example.application.repository.IMealRepository
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import org.mockito.Mockito.mock
-import org.mockito.Mockito.`when`
+import org.mockito.Mockito.*
 import java.util.*
 
 internal class MealServiceTest {
@@ -38,5 +37,20 @@ internal class MealServiceTest {
 
         val expectedMeal = mealService.getMeal("1")
         assertEquals(expectedMeal, meal)
+    }
+
+    @Test
+    internal fun `should modify the meal item`() {
+        val mealToUpdate = Meal("1", "Poha", MealType.BREAKFAST)
+        val mealIdToUpdate = "1"
+
+        `when`(mealRepository.findById(mealIdToUpdate)).thenReturn(Optional.of(mealToUpdate))
+
+        mealService.modifyMeal(mealIdToUpdate, "Boiled Eggs", MealType.BREAKFAST)
+
+        assertEquals("Boiled Eggs", mealToUpdate.name)
+
+        verify(mealRepository).findById(mealIdToUpdate)
+        verify(mealRepository).save(mealToUpdate)
     }
 }

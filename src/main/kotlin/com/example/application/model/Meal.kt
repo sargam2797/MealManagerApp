@@ -8,10 +8,15 @@ import org.springframework.data.repository.NoRepositoryBean
 @NoRepositoryBean
 data class Meal(
     @Id var id: String,
-    val name: String,
-    val type: MealType,
+    var name: String,
+    var type: MealType,
 )
 
 data class MealResponse(
     val mealOptions: List<Meal>
+)
+
+data class UpdateMealRequest(
+    var name: String,
+    var type: MealType
 )
