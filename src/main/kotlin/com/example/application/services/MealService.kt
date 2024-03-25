@@ -25,11 +25,14 @@ class MealService(
             val existingMeal = mealRepository.findById(meal.id!!)
             if (existingMeal.isPresent) {
                 val mealToUpdate = existingMeal.get()
-                mealToUpdate.name = meal.name
-                mealToUpdate.type = meal.type
-                mealRepository.save(mealToUpdate)
+                if (mealToUpdate.name != meal.name || mealToUpdate.type != meal.type) {
+                    mealToUpdate.name = meal.name
+                    mealToUpdate.type = meal.type
+                    mealRepository.save(mealToUpdate)
+                    return
+                }
+                return
             }
-
         }
         meal.id = null
         mealRepository.save(meal)
