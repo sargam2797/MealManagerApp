@@ -7,16 +7,11 @@ import org.springframework.data.repository.NoRepositoryBean
 @Table("MEAL")
 @NoRepositoryBean
 data class Meal(
-    @Id var id: String,
+    @Id var id: String?,
     var name: String,
     var type: MealType,
 )
 
 data class MealResponse(
     val mealOptions: List<Meal>
-)
-
-data class UpdateMealRequest(
-    var name: String,
-    var type: MealType
 )

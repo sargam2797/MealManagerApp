@@ -3,7 +3,6 @@ package com.example.application.controllers
 import com.example.application.model.Meal
 import com.example.application.model.MealResponse
 import com.example.application.model.MealType
-import com.example.application.model.UpdateMealRequest
 import com.example.application.services.MealService
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -13,11 +12,10 @@ import org.springframework.boot.test.mock.mockito.MockBean
 internal class MealControllerTest {
     @MockBean
     var mealService: MealService = mock()
+    private val mealController = MealController(mealService)
 
     @Test
     internal fun `Returns meal options`() {
-        val mealController = MealController(mealService)
-
         val availableMealOptions = MealResponse(
             listOf(
                 Meal("1", "Poha", MealType.BREAKFAST),
@@ -39,18 +37,16 @@ internal class MealControllerTest {
 
     @Test
     internal fun `should modify the meal item`() {
-        val updateMealRequest = UpdateMealRequest("Boiled Eggs", MealType.BREAKFAST)
+        val updateMealRequest = Meal("1", "Boiled Eggs", MealType.BREAKFAST)
 
-        `when`(mealService.modifyMeal("1", "Boiled Eggs", MealType.BREAKFAST)).then {
+        `when`(mealService.upsertMeal(Meal("1", "Boiled Eggs", MealType.BREAKFAST))).then {
             updateMealRequest.name = "Boiled Eggs"
             Unit
         }
 
-        val mealController = MealController(mealService)
+        mealController.upsertMeal("1", updateMealRequest)
 
-        mealController.modifyMeal("1", updateMealRequest)
-
-        verify(mealService).modifyMeal("1", "Boiled Eggs", MealType.BREAKFAST)
+        verify(mealService).upsertMeal(updateMealRequest)
 
         assertEquals("Boiled Eggs", updateMealRequest.name)
     }

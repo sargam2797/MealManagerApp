@@ -41,16 +41,29 @@ internal class MealServiceTest {
 
     @Test
     internal fun `should modify the meal item`() {
-        val mealToUpdate = Meal("1", "Poha", MealType.BREAKFAST)
-        val mealIdToUpdate = "1"
+        val existingMeal = Meal("1", "Boiled Eggs", MealType.BREAKFAST)
+        val mealToUpdate = Meal("1", "Pasta", MealType.DINNER)
 
-        `when`(mealRepository.findById(mealIdToUpdate)).thenReturn(Optional.of(mealToUpdate))
+        `when`(mealRepository.findById("1")).thenReturn(Optional.of(existingMeal))
 
-        mealService.modifyMeal(mealIdToUpdate, "Boiled Eggs", MealType.BREAKFAST)
+        mealService.upsertMeal(mealToUpdate)
 
-        assertEquals("Boiled Eggs", mealToUpdate.name)
+        assertEquals("Pasta", mealToUpdate.name)
 
-        verify(mealRepository).findById(mealIdToUpdate)
-        verify(mealRepository).save(mealToUpdate)
+        verify(mealRepository).findById("1")
+        verify(mealRepository).save(existingMeal)
+    }
+
+    @Test
+    internal fun `should insert a meal if nothing to update`() {
+        val newMeal = Meal(null, "Pasta", MealType.DINNER)
+        val savedMeal = Meal("1", "Pasta", MealType.DINNER)
+
+        `when`(mealRepository.save(any(Meal::class.java))).thenReturn(savedMeal)
+
+        mealService.upsertMeal(newMeal)
+
+        assertEquals(savedMeal.name, "Pasta")
+        verify(mealRepository).save(newMeal)
     }
 }
