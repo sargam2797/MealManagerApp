@@ -31,15 +31,6 @@ internal class MealServiceTest {
     }
 
     @Test
-    internal fun `return a meal item`() {
-        val meal = Meal("1", "Poha", MealType.BREAKFAST)
-        `when`(mealRepository.findById("1")).thenReturn(Optional.of(meal))
-
-        val expectedMeal = mealService.getMeal("1")
-        assertEquals(expectedMeal, meal)
-    }
-
-    @Test
     internal fun `should modify the meal item`() {
         val existingMeal = Meal("1", "Boiled Eggs", MealType.BREAKFAST)
         val mealToUpdate = Meal("1", "Pasta", MealType.DINNER)

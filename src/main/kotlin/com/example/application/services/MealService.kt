@@ -15,11 +15,6 @@ class MealService(
         return MealResponse(mealOptions)
     }
 
-    fun getMeal(id: String): Meal {
-        val optionalMeal: Optional<Meal> = mealRepository.findById(id)
-        return optionalMeal.orElse(null)
-    }
-
     fun upsertMeal(meal: Meal) {
         if (meal.id != null) {
             val existingMeal = mealRepository.findById(meal.id!!)
